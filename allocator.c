@@ -438,6 +438,7 @@ void test_stress(allocator_t *alloc) {
 
     while (0 < alloc_ptrs) {
         deallocate(alloc, ptrs[--alloc_ptrs]);
+        allocator_check(alloc);
     }
 }
 
