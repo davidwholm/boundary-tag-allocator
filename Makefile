@@ -1,13 +1,18 @@
-CC      = clang
-CCFLAGS = -g
+CC      ?= cc
+CFLAGS  = -Wall -Wextra -Wpedantic -g -O2
 
-all: allocator
+TARGET  = allocator
+SRC     = allocator.c
 
-test: allocator
-	./allocator
+all: $(TARGET)
 
-allocator: allocator.c
-	$(CC) $(CCFLAGS) allocator.c -o allocator
+$(TARGET): $(SRC)
+	$(CC) $(CFLAGS) $(SRC) -o $(TARGET)
+
+test: $(TARGET)
+	./$(TARGET)
 
 clean:
-	rm allocator
+	rm -f $(TARGET)
+
+.PHONY: all test clean

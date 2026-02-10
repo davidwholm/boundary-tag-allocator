@@ -122,9 +122,9 @@ void allocator_dump(allocator_t *alloc) {
         }
         raw_boundary_t *boundary_ptr = (raw_boundary_t *)current;
         boundary_t boundary = unpack(*boundary_ptr);
-        printf("[%3d] %p | length=%04u | %s | p_alloc=%d\n", block++, current,
-               boundary.length, boundary.alloc ? "alloc" : "free ",
-               boundary.p_alloc);
+        printf("[%3d] %p | length=%04u | %s | p_alloc=%d\n", block++,
+               (void *)current, boundary.length,
+               boundary.alloc ? "alloc" : "free ", boundary.p_alloc);
         current += boundary.length;
     }
 
@@ -333,7 +333,7 @@ void deallocate(allocator_t *alloc, void *ptr) {
 void test_allocate(allocator_t *alloc) {
     const uint16_t length = 1;
     const uint16_t block_length = 8;
-    const size_t blocks = (HEAP_SIZE - HEAP_ALIGN) / block_length;
+    const uint16_t blocks = (HEAP_SIZE - HEAP_ALIGN) / block_length;
     void *ptrs[blocks];
 
     for (int i = 0; i < blocks; i++) {
@@ -442,7 +442,7 @@ void test_stress(allocator_t *alloc) {
     }
 }
 
-int main() {
+int main(void) {
     allocator_t alloc;
     allocator_init(&alloc);
 
